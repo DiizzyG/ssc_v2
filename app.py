@@ -1,7 +1,7 @@
 import streamlit as st
-from streamlit_autorefresh import st_autorefresh
 import uuid
 from GameMatch import gameMatch,game_match, gameMsg, game_msg
+import time
 
 
 st.set_page_config(page_title="石头剪刀布", layout="centered")
@@ -66,7 +66,8 @@ if st.session_state.page == 'match':
         else:
             st.title("石头剪刀布 - 匹配房间")
             st.text(f'正在等待其他玩家加入房间{st.session_state.room_code}')
-            st_autorefresh(interval=1000)
+            time.sleep(2)
+            st.rerun()
 elif st.session_state.page == 'game':
     st.title(f"匹配码: {st.session_state.room_code}")
     if "choice" not in st.session_state:
@@ -92,7 +93,8 @@ elif st.session_state.page == 'waiting_result':
         st.title(f"匹配码: {st.session_state.room_code}")
         st.text(f'你出了{st.session_state.choice}')
         st.text('等待对手提交')
-        st_autorefresh(interval=2000)
+        time.sleep(2)
+        st.rerun()
     elif rspc_dict['event_act'] == 'confirm_winner':
         # game over, display winner
         st.session_state.result_dict = rspc_dict
